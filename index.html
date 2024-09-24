@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <script src="randominteger.js"></script>
+</head>
+<body>
+    <h1>Number Guessing Game</h1>
+    <p>Guess a number between 1 and 100</p>
+
+    <input type="number" id="guess" placeholder="Enter your guess">
+    <button onclick="checkGuess()">Submit Guess</button>
+
+    <p id="result"></p>
+    <p id="previousGuesses"></p>
+
+    <script>
+        let randomNumber = randomInt();
+        let turns = 10;
+        let guesses = [];
+
+        function checkGuess() {
+            let guess = parseInt(document.getElementById('guess').value);
+            guesses.push(guess);
+            turns--;
+
+            if (guess === randomNumber) {
+                document.getElementById('result').textContent = 'Congratulations! You guessed correctly!';
+                document.getElementById('previousGuesses').textContent = 'Previous guesses: ' + guesses.join(', ');
+            } else if (turns === 0) {
+                document.getElementById('result').textContent = 'Game over! You have no turns left. The number was ' + randomNumber;
+            } else if (guess < randomNumber) {
+                document.getElementById('result').textContent = 'Too low! Try again. Turns left: ' + turns;
+            } else if (guess > randomNumber) {
+                document.getElementById('result').textContent = 'Too high! Try again. Turns left: ' + turns;
+            }
+
+            document.getElementById('previousGuesses').textContent = 'Previous guesses: ' + guesses.join(', ');
+
+            if (turns === 0 || guess === randomNumber) {
+                setTimeout(function() {
+                    if (confirm('Do you want to play again?')) {
+                        location.reload();
+                    }
+                }, 500);
+            }
+        }
+    </script>
+</body>
+</html>
